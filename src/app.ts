@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import productoRoute from "./routes/productoRoute"
 import pedidoRoute from "./routes/pedidoRoute"
+import clienteRoute from "./routes/clienteRoute"
 
 const app = express()
 
@@ -14,5 +15,6 @@ app.get("/", (req, res) => {
 
 app.use("/productos", productoRoute)
 app.use("/pedidos", pedidoRoute)
+app.use("/clientes", clienteRoute)
 
 export default app
