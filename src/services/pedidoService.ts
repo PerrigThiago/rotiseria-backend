@@ -1,5 +1,5 @@
 import { supabase } from "../config/bd"
-import {  PedidoItem } from "../models/productoModel"
+import {  PedidoItem } from "../models/pedidoModel"
 import { CrearPedidoDTO } from "../dto/pedidoDto"
 
 export const PedidoService = {

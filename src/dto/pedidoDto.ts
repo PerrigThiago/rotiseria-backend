@@ -1,4 +1,4 @@
-import { CarritoItem } from "../models/productoModel" 
+import { CarritoItem } from "../models/carritoModel" 
 
 export type CrearPedidoDTO = {
     cliente: {

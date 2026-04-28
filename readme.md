@@ -241,4 +241,4 @@ Se construyó un backend funcional y estructurado que:
 ## 👨‍💻 Autor
 
 Thiago Perrig
-Desarrollador Web Full Stack (en formación)
+Desarrollador Web Full Stack 
