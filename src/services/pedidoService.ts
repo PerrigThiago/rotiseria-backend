@@ -1,9 +1,10 @@
 import { supabase } from "../config/bd"
-import {  PedidoItem } from "../models/pedidoModel"
+import { PedidoItem } from "../models/pedidoModel"
 import { CrearPedidoDTO } from "../dto/pedidoDto"
 
 export const PedidoService = {
     async crearPedido(data: CrearPedidoDTO) {
+
         const { cliente, carrito, total } = data
 
         // crear cliente
@@ -36,8 +37,8 @@ export const PedidoService = {
         }))
 
         const { error: errorItems } = await supabase
-        .from("pedido_items")
-        .insert(items)
+            .from("pedido_items")
+            .insert(items)
 
         if (errorItems) throw errorItems
 
@@ -45,5 +46,22 @@ export const PedidoService = {
             pedido,
             items
         }
+    },
+
+    async obtenerPedido() {
+        const { data, error } = await supabase
+            .from("pedidos")
+            .select(`
+      *,
+      clientes (*),
+      pedido_items (
+        *,
+        productos (*)
+      )
+    `)
+
+        if (error) throw error
+
+        return data
     }
 }

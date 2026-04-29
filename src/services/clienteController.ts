@@ -2,7 +2,9 @@ import { supabase } from "../config/bd"
 import { Cliente } from "../models/clienteModel"
 
 export const clienteService = {
+
     async getCliente() {
+
         const { data, error } = await supabase 
             .from("clientes")
             .select("*")
@@ -12,6 +14,7 @@ export const clienteService = {
     },
 
     async createCliente(cliente: Cliente) {
+
         const { data, error } = await supabase
             .from("clientes")
             .insert([cliente])
@@ -23,6 +26,7 @@ export const clienteService = {
     },
 
     async updateCliente(id: number, cliente: Partial<Cliente>) {
+
         const { data, error } = await supabase
             .from("clientes")
             .update(cliente)
@@ -35,6 +39,7 @@ export const clienteService = {
     },
 
     async deleteCliente(id: number) {
+        
         const { data, error } = await supabase
             .from("clientes")
             .delete()
