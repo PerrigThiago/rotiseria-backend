@@ -7,6 +7,8 @@ export const pedidoController = {
     crearPedido: async (req: Request, res: Response) => {
 
         try {
+            console.log("BODY", req.body)
+
             const data: CrearPedidoDTO = req.body
 
             if (!data.cliente || !data.carrito || data.carrito.length === 0) {
@@ -17,6 +19,7 @@ export const pedidoController = {
             res.status(201).json(result)
 
         } catch (error: any) {
+            console.error("ERROR", error)
             res.status(500).json({ error: error.messagge })
         }
     },
