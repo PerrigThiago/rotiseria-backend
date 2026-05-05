@@ -10,7 +10,7 @@ export const authController = {
                 return res.status(400).json({ error: "Faltan datos" })
             }
 
-            const result = await authService.login(email && password)
+            const result = await authService.login(email, password)
 
             res.json(result)
 
