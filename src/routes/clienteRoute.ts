@@ -1,12 +1,32 @@
 import { Router } from "express";
-import { clienteService } from "../services/clienteController";
 import { clienteController } from "../controllers/clienteController";
+import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware";
 
 const router = Router()
 
-router.get("/", clienteController.getCliente)
-router.post("/", clienteController.createCliente)
-router.put("/:id", clienteController.updateCliente)
-router.delete("/:id", clienteController.deleteCliente)
+router.get(
+    "/", 
+    authMiddleware,
+    roleMiddleware(["admin"]),
+    clienteController.getCliente)
+
+router.post(
+    "/",
+    authMiddleware,
+    roleMiddleware(["admin"]),
+    clienteController.createCliente)
+
+    
+router.put(
+    "/:id", 
+    authMiddleware,
+    roleMiddleware(["admin"]),
+    clienteController.updateCliente)
+
+router.delete(
+    "/:id",
+    authMiddleware,
+    roleMiddleware(["admin"]),
+    clienteController.deleteCliente)
 
 export default router
