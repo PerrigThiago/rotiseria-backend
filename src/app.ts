@@ -5,6 +5,7 @@ import productoRoute from "./routes/productoRoute"
 import pedidoRoute from "./routes/pedidoRoute"
 import clienteRoute from "./routes/clienteRoute"
 import authRoute from "./routes/authRoute"
+import categoriaRoute from "./routes/categoriaRoute"
 
 const app = express()
 
@@ -20,5 +21,6 @@ app.use("/auth", authRoute)
 app.use("/productos", productoRoute)
 app.use("/pedidos", pedidoRoute)
 app.use("/clientes", clienteRoute)
+app.use("/categorias", categoriaRoute)
 
 export default app
