@@ -34,8 +34,9 @@ export const productoService = {
             .select()
             .single()
         
-    if (error) throw error
-    return data
+        if (error) throw error
+
+        return data
     },
 
     async deleteProductos(id: number) {
@@ -45,6 +46,6 @@ export const productoService = {
             .delete()
             .eq("id", id)
 
-    if (error) throw error
+        if (error) throw error
     }
 }
