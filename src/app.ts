@@ -7,6 +7,7 @@ import clienteRoute from "./routes/clienteRoute"
 import authRoute from "./routes/authRoute"
 import categoriaRoute from "./routes/categoriaRoute"
 import configuracionRoute from "./routes/configuracionRoute"
+import usuarioRoute from "./routes/usuarioRoute"
 
 const app = express()
 
@@ -24,5 +25,6 @@ app.use("/pedidos", pedidoRoute)
 app.use("/clientes", clienteRoute)
 app.use("/categorias", categoriaRoute)
 app.use("/configuracion", configuracionRoute)
+app.use("/usuarios", usuarioRoute)
 
 export default app
