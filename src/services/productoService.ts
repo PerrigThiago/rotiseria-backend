@@ -1,5 +1,5 @@
 import { supabase } from "../config/bd"
-import { Producto } from "../models/productoModel"
+import type { Producto } from "../types/producto"
 
 export const productoService = {
 
@@ -7,7 +7,9 @@ export const productoService = {
 
         const { data, error } = await supabase
             .from("productos")
-            .select("*")
+            .select(`
+                *, categoria:categorias ( id, nombre )
+            `)
 
         if (error) throw error
         return data
@@ -27,21 +29,21 @@ export const productoService = {
 
     async updateProducto(id: number, producto: Partial<Producto>) {
 
-        const { data, error} = await supabase 
+        const { data, error } = await supabase
             .from("productos")
             .update(producto)
             .eq("id", id)
             .select()
             .single()
-        
+
         if (error) throw error
 
         return data
     },
 
     async deleteProductos(id: number) {
-        
-        const { error} = await supabase
+
+        const { error } = await supabase
             .from("productos")
             .delete()
             .eq("id", id)
