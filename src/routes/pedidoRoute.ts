@@ -4,15 +4,22 @@ import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware"
 
 const router = Router()
 
-// 🔓 Cliente (sin login)
 router.post("/", pedidoController.crearPedido)
 
-// 🔒 Admin / Empleado
 router.get(
   "/",
   authMiddleware,
   roleMiddleware(["admin", "empleado"]),
   pedidoController.obtenerPedido
+)
+
+router.put(
+  "/:id/estado",
+
+  authMiddleware,
+  roleMiddleware(["admin", "empleado"]),
+
+  pedidoController.updateEstado
 )
 
 export default router

@@ -1,5 +1,5 @@
 import { supabase } from "../config/bd"
-import { PedidoItem } from "../models/pedidoModel"
+import type { PedidoItem } from "../types/pedido"
 import { CrearPedidoDTO } from "../dto/pedidoDto"
 
 export const PedidoService = {
@@ -7,7 +7,7 @@ export const PedidoService = {
 
         const { cliente, carrito } = data
 
-        // 🔹 1. Crear cliente
+        //  1. Crear cliente
         const { data: clienteData, error: errorCliente } = await supabase
             .from("clientes")
             .insert([cliente])
@@ -16,7 +16,7 @@ export const PedidoService = {
 
         if (errorCliente) throw errorCliente
 
-        // 🔹 2. Crear pedido SIN total todavía
+        //  2. Crear pedido SIN total todavía
         const { data: pedido, error: errorPedido } = await supabase
             .from("pedidos")
             .insert([{
@@ -32,10 +32,10 @@ export const PedidoService = {
         let total = 0
         const items: PedidoItem[] = []
 
-        // 🔹 3. Procesar carrito
+        //  3. Procesar carrito
         for (const item of carrito) {
 
-            // 👉 buscar producto
+            // buscar producto
             const { data: producto, error: errorProducto } = await supabase
                 .from("productos")
                 .select("id, precio")
@@ -51,18 +51,18 @@ export const PedidoService = {
                 pedido_id: pedido.id!,
                 producto_id: item.id,
                 cantidad: item.cantidad,
-                precio_unitario: producto.precio // ✅ ahora sí correcto
+                precio_unitario: producto.precio 
             })
         }
 
-        // 🔹 4. Insertar items
+        //  4. Insertar items
         const { error: errorItems } = await supabase
             .from("pedido_items")
             .insert(items)
 
         if (errorItems) throw errorItems
 
-        // 🔹 5. Actualizar total del pedido
+        //  5. Actualizar total del pedido
         const { error: errorUpdate } = await supabase
             .from("pedidos")
             .update({ total })
@@ -77,5 +77,54 @@ export const PedidoService = {
             },
             items
         }
+    },
+
+    async obtenerPedido() {
+
+    const { data, error } = await supabase
+        .from("pedidos")
+        .select(`
+            *,
+            
+            cliente:clientes (
+                id,
+                nombre,
+                telefono,
+                direccion
+            ),
+
+            items:pedido_items (
+                id,
+                cantidad,
+                precio_unitario,
+
+                producto:productos (
+                    id,
+                    nombre,
+                    precio,
+                    imagen_url
+                )
+            )
+        `)
+        .order("fecha", { ascending: false })
+
+    if (error) throw error
+
+    return data
+    
+    },
+
+    async updateEstado(id: number, estado: string) {
+
+    const { data, error } = await supabase
+        .from("pedidos")
+        .update({ estado })
+        .eq("id", id)
+        .select()
+        .single()
+
+    if (error) throw error
+
+    return data
     }
 }

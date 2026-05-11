@@ -1,15 +1,28 @@
-export type Pedido = {
-    id?: number
-    cliente_id: number
-    estado: string
-    total: number
-    fecha: string
-}
+import type { Cliente } from "./cliente"
+import type { Producto } from "./producto"
 
 export type PedidoItem = {
-    id?: number
-    pedido_id: number
-    producto_id: number
-    cantidad: number
-    precio_unitario: number
+  id: number
+  cantidad: number
+  precio_unitario: number
+
+  producto: Producto
 }
+
+export type Pedido = {
+  id: number
+  estado: string
+  total: number
+  fecha: string
+
+  cliente: Cliente
+
+  items: PedidoItem[]
+}
+
+/*
+pedido
+ ├── cliente
+ └── items
+      └── producto
+*/
